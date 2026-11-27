@@ -1,0 +1,9 @@
+// leer: la maquina virtual pide el dato por teclado.
+decimal nota = 0;
+leer nota;
+si (nota >= 61.0) {
+    imprimir("Aprobado");
+} sino {
+    imprimir("Reprobado");
+}
+imprimir(nota);

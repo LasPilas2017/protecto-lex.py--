@@ -1,0 +1,489 @@
+$ python main.py pruebas/40_final_extension.txt
+
+=== MI COMPILADOR - ENTREGA FINAL (5 FASES) ===
+
+CODIGO FUENTE:
+/* Demostracion final de mi extension personal:
+   llega hasta la ejecucion en la maquina virtual. */
+
+funcion decimal promedio(decimal a, decimal b) {
+    retornar (a + b) / 2.0;
+}
+
+funcion entero factorial(entero n) {
+    si (n <= 1) {
+        retornar 1;
+    }
+    retornar n * factorial(n - 1);
+}
+
+cadena nombre = "Ana";
+cadena saludo = "Hola " + nombre;
+decimal nota = 75.5;
+booleano aprobado = falso;
+entero intentos = 0;
+
+imprimir(saludo);
+
+// mientras con continuar y parar
+mientras (verdadero) {
+    intentos = intentos + 1;
+    si (intentos == 2) {
+        continuar;
+    }
+    si (intentos > 4) {
+        parar;
+    }
+    imprimir(intentos);
+}
+
+// si / sino si / sino con operadores logicos
+si (nota >= 90.0) entonces {
+    imprimir("Excelente");
+} sino si (nota >= 61.0 y no (intentos > 10)) {
+    aprobado = verdadero;
+    imprimir("Aprobado");
+} sino {
+    imprimir("Reprobado");
+}
+
+imprimir(aprobado);
+imprimir(promedio(nota, 100.0));
+imprimir(factorial(5));
+imprimir(7 / 2);
+imprimir(7.0 / 2);
+
+
+=== FASE 1 - ANALISIS LEXICO (lexer/lexer.py) ===
+  Token(tipo='PR_FUNCION', valor='funcion', linea=4)
+  Token(tipo='PR_DECIMAL', valor='decimal', linea=4)
+  Token(tipo='ID', valor='promedio', linea=4)
+  Token(tipo='DELIM', valor='(', linea=4)
+  Token(tipo='PR_DECIMAL', valor='decimal', linea=4)
+  Token(tipo='ID', valor='a', linea=4)
+  Token(tipo='DELIM', valor=',', linea=4)
+  Token(tipo='PR_DECIMAL', valor='decimal', linea=4)
+  Token(tipo='ID', valor='b', linea=4)
+  Token(tipo='DELIM', valor=')', linea=4)
+  Token(tipo='DELIM', valor='{', linea=4)
+  Token(tipo='PR_RETORNAR', valor='retornar', linea=5)
+  Token(tipo='DELIM', valor='(', linea=5)
+  Token(tipo='ID', valor='a', linea=5)
+  Token(tipo='OP_ARIT', valor='+', linea=5)
+  Token(tipo='ID', valor='b', linea=5)
+  Token(tipo='DELIM', valor=')', linea=5)
+  Token(tipo='OP_ARIT', valor='/', linea=5)
+  Token(tipo='NUMERO_DECIMAL', valor='2.0', linea=5)
+  Token(tipo='DELIM', valor=';', linea=5)
+  Token(tipo='DELIM', valor='}', linea=6)
+  Token(tipo='PR_FUNCION', valor='funcion', linea=8)
+  Token(tipo='PR_ENTERO', valor='entero', linea=8)
+  Token(tipo='ID', valor='factorial', linea=8)
+  Token(tipo='DELIM', valor='(', linea=8)
+  Token(tipo='PR_ENTERO', valor='entero', linea=8)
+  Token(tipo='ID', valor='n', linea=8)
+  Token(tipo='DELIM', valor=')', linea=8)
+  Token(tipo='DELIM', valor='{', linea=8)
+  Token(tipo='PR_SI', valor='si', linea=9)
+  Token(tipo='DELIM', valor='(', linea=9)
+  Token(tipo='ID', valor='n', linea=9)
+  Token(tipo='OP_REL', valor='<=', linea=9)
+  Token(tipo='NUMERO', valor='1', linea=9)
+  Token(tipo='DELIM', valor=')', linea=9)
+  Token(tipo='DELIM', valor='{', linea=9)
+  Token(tipo='PR_RETORNAR', valor='retornar', linea=10)
+  Token(tipo='NUMERO', valor='1', linea=10)
+  Token(tipo='DELIM', valor=';', linea=10)
+  Token(tipo='DELIM', valor='}', linea=11)
+  Token(tipo='PR_RETORNAR', valor='retornar', linea=12)
+  Token(tipo='ID', valor='n', linea=12)
+  Token(tipo='OP_ARIT', valor='*', linea=12)
+  Token(tipo='ID', valor='factorial', linea=12)
+  Token(tipo='DELIM', valor='(', linea=12)
+  Token(tipo='ID', valor='n', linea=12)
+  Token(tipo='OP_ARIT', valor='-', linea=12)
+  Token(tipo='NUMERO', valor='1', linea=12)
+  Token(tipo='DELIM', valor=')', linea=12)
+  Token(tipo='DELIM', valor=';', linea=12)
+  Token(tipo='DELIM', valor='}', linea=13)
+  Token(tipo='PR_CADENA', valor='cadena', linea=15)
+  Token(tipo='ID', valor='nombre', linea=15)
+  Token(tipo='ASIGNACION', valor='=', linea=15)
+  Token(tipo='CADENA_LITERAL', valor='"Ana"', linea=15)
+  Token(tipo='DELIM', valor=';', linea=15)
+  Token(tipo='PR_CADENA', valor='cadena', linea=16)
+  Token(tipo='ID', valor='saludo', linea=16)
+  Token(tipo='ASIGNACION', valor='=', linea=16)
+  Token(tipo='CADENA_LITERAL', valor='"Hola "', linea=16)
+  Token(tipo='OP_ARIT', valor='+', linea=16)
+  Token(tipo='ID', valor='nombre', linea=16)
+  Token(tipo='DELIM', valor=';', linea=16)
+  Token(tipo='PR_DECIMAL', valor='decimal', linea=17)
+  Token(tipo='ID', valor='nota', linea=17)
+  Token(tipo='ASIGNACION', valor='=', linea=17)
+  Token(tipo='NUMERO_DECIMAL', valor='75.5', linea=17)
+  Token(tipo='DELIM', valor=';', linea=17)
+  Token(tipo='PR_BOOLEANO', valor='booleano', linea=18)
+  Token(tipo='ID', valor='aprobado', linea=18)
+  Token(tipo='ASIGNACION', valor='=', linea=18)
+  Token(tipo='BOOLEANO', valor='falso', linea=18)
+  Token(tipo='DELIM', valor=';', linea=18)
+  Token(tipo='PR_ENTERO', valor='entero', linea=19)
+  Token(tipo='ID', valor='intentos', linea=19)
+  Token(tipo='ASIGNACION', valor='=', linea=19)
+  Token(tipo='NUMERO', valor='0', linea=19)
+  Token(tipo='DELIM', valor=';', linea=19)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=21)
+  Token(tipo='DELIM', valor='(', linea=21)
+  Token(tipo='ID', valor='saludo', linea=21)
+  Token(tipo='DELIM', valor=')', linea=21)
+  Token(tipo='DELIM', valor=';', linea=21)
+  Token(tipo='PR_MIENTRAS', valor='mientras', linea=24)
+  Token(tipo='DELIM', valor='(', linea=24)
+  Token(tipo='BOOLEANO', valor='verdadero', linea=24)
+  Token(tipo='DELIM', valor=')', linea=24)
+  Token(tipo='DELIM', valor='{', linea=24)
+  Token(tipo='ID', valor='intentos', linea=25)
+  Token(tipo='ASIGNACION', valor='=', linea=25)
+  Token(tipo='ID', valor='intentos', linea=25)
+  Token(tipo='OP_ARIT', valor='+', linea=25)
+  Token(tipo='NUMERO', valor='1', linea=25)
+  Token(tipo='DELIM', valor=';', linea=25)
+  Token(tipo='PR_SI', valor='si', linea=26)
+  Token(tipo='DELIM', valor='(', linea=26)
+  Token(tipo='ID', valor='intentos', linea=26)
+  Token(tipo='OP_REL', valor='==', linea=26)
+  Token(tipo='NUMERO', valor='2', linea=26)
+  Token(tipo='DELIM', valor=')', linea=26)
+  Token(tipo='DELIM', valor='{', linea=26)
+  Token(tipo='PR_CONTINUAR', valor='continuar', linea=27)
+  Token(tipo='DELIM', valor=';', linea=27)
+  Token(tipo='DELIM', valor='}', linea=28)
+  Token(tipo='PR_SI', valor='si', linea=29)
+  Token(tipo='DELIM', valor='(', linea=29)
+  Token(tipo='ID', valor='intentos', linea=29)
+  Token(tipo='OP_REL', valor='>', linea=29)
+  Token(tipo='NUMERO', valor='4', linea=29)
+  Token(tipo='DELIM', valor=')', linea=29)
+  Token(tipo='DELIM', valor='{', linea=29)
+  Token(tipo='PR_PARAR', valor='parar', linea=30)
+  Token(tipo='DELIM', valor=';', linea=30)
+  Token(tipo='DELIM', valor='}', linea=31)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=32)
+  Token(tipo='DELIM', valor='(', linea=32)
+  Token(tipo='ID', valor='intentos', linea=32)
+  Token(tipo='DELIM', valor=')', linea=32)
+  Token(tipo='DELIM', valor=';', linea=32)
+  Token(tipo='DELIM', valor='}', linea=33)
+  Token(tipo='PR_SI', valor='si', linea=36)
+  Token(tipo='DELIM', valor='(', linea=36)
+  Token(tipo='ID', valor='nota', linea=36)
+  Token(tipo='OP_REL', valor='>=', linea=36)
+  Token(tipo='NUMERO_DECIMAL', valor='90.0', linea=36)
+  Token(tipo='DELIM', valor=')', linea=36)
+  Token(tipo='PR_ENTONCES', valor='entonces', linea=36)
+  Token(tipo='DELIM', valor='{', linea=36)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=37)
+  Token(tipo='DELIM', valor='(', linea=37)
+  Token(tipo='CADENA_LITERAL', valor='"Excelente"', linea=37)
+  Token(tipo='DELIM', valor=')', linea=37)
+  Token(tipo='DELIM', valor=';', linea=37)
+  Token(tipo='DELIM', valor='}', linea=38)
+  Token(tipo='PR_SINO', valor='sino', linea=38)
+  Token(tipo='PR_SI', valor='si', linea=38)
+  Token(tipo='DELIM', valor='(', linea=38)
+  Token(tipo='ID', valor='nota', linea=38)
+  Token(tipo='OP_REL', valor='>=', linea=38)
+  Token(tipo='NUMERO_DECIMAL', valor='61.0', linea=38)
+  Token(tipo='OP_LOGICO_Y', valor='y', linea=38)
+  Token(tipo='OP_LOGICO_NO', valor='no', linea=38)
+  Token(tipo='DELIM', valor='(', linea=38)
+  Token(tipo='ID', valor='intentos', linea=38)
+  Token(tipo='OP_REL', valor='>', linea=38)
+  Token(tipo='NUMERO', valor='10', linea=38)
+  Token(tipo='DELIM', valor=')', linea=38)
+  Token(tipo='DELIM', valor=')', linea=38)
+  Token(tipo='DELIM', valor='{', linea=38)
+  Token(tipo='ID', valor='aprobado', linea=39)
+  Token(tipo='ASIGNACION', valor='=', linea=39)
+  Token(tipo='BOOLEANO', valor='verdadero', linea=39)
+  Token(tipo='DELIM', valor=';', linea=39)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=40)
+  Token(tipo='DELIM', valor='(', linea=40)
+  Token(tipo='CADENA_LITERAL', valor='"Aprobado"', linea=40)
+  Token(tipo='DELIM', valor=')', linea=40)
+  Token(tipo='DELIM', valor=';', linea=40)
+  Token(tipo='DELIM', valor='}', linea=41)
+  Token(tipo='PR_SINO', valor='sino', linea=41)
+  Token(tipo='DELIM', valor='{', linea=41)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=42)
+  Token(tipo='DELIM', valor='(', linea=42)
+  Token(tipo='CADENA_LITERAL', valor='"Reprobado"', linea=42)
+  Token(tipo='DELIM', valor=')', linea=42)
+  Token(tipo='DELIM', valor=';', linea=42)
+  Token(tipo='DELIM', valor='}', linea=43)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=45)
+  Token(tipo='DELIM', valor='(', linea=45)
+  Token(tipo='ID', valor='aprobado', linea=45)
+  Token(tipo='DELIM', valor=')', linea=45)
+  Token(tipo='DELIM', valor=';', linea=45)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=46)
+  Token(tipo='DELIM', valor='(', linea=46)
+  Token(tipo='ID', valor='promedio', linea=46)
+  Token(tipo='DELIM', valor='(', linea=46)
+  Token(tipo='ID', valor='nota', linea=46)
+  Token(tipo='DELIM', valor=',', linea=46)
+  Token(tipo='NUMERO_DECIMAL', valor='100.0', linea=46)
+  Token(tipo='DELIM', valor=')', linea=46)
+  Token(tipo='DELIM', valor=')', linea=46)
+  Token(tipo='DELIM', valor=';', linea=46)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=47)
+  Token(tipo='DELIM', valor='(', linea=47)
+  Token(tipo='ID', valor='factorial', linea=47)
+  Token(tipo='DELIM', valor='(', linea=47)
+  Token(tipo='NUMERO', valor='5', linea=47)
+  Token(tipo='DELIM', valor=')', linea=47)
+  Token(tipo='DELIM', valor=')', linea=47)
+  Token(tipo='DELIM', valor=';', linea=47)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=48)
+  Token(tipo='DELIM', valor='(', linea=48)
+  Token(tipo='NUMERO', valor='7', linea=48)
+  Token(tipo='OP_ARIT', valor='/', linea=48)
+  Token(tipo='NUMERO', valor='2', linea=48)
+  Token(tipo='DELIM', valor=')', linea=48)
+  Token(tipo='DELIM', valor=';', linea=48)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=49)
+  Token(tipo='DELIM', valor='(', linea=49)
+  Token(tipo='NUMERO_DECIMAL', valor='7.0', linea=49)
+  Token(tipo='OP_ARIT', valor='/', linea=49)
+  Token(tipo='NUMERO', valor='2', linea=49)
+  Token(tipo='DELIM', valor=')', linea=49)
+  Token(tipo='DELIM', valor=';', linea=49)
+  Token(tipo='EOF', valor='', linea=50)
+
+=== FASE 2 - ANALISIS SINTACTICO (parser/parser.py) ===
+Analisis sintactico correcto. AST generado:
+
+Programa
+└── [sentencias]
+    ├── Funcion(decimal promedio)
+    │   ├── [parametros]
+    │   │   ├── Parametro(decimal a)
+    │   │   └── Parametro(decimal b)
+    │   └── [cuerpo]
+    │       └── Retornar
+    │           └── expr: OpBinaria(/)
+    │               ├── izq: OpBinaria(+)
+    │               │   ├── izq: Identificador(a)
+    │               │   └── der: Identificador(b)
+    │               └── der: Decimal(2.0)
+    ├── Funcion(entero factorial)
+    │   ├── [parametros]
+    │   │   └── Parametro(entero n)
+    │   └── [cuerpo]
+    │       ├── Si
+    │       │   ├── condicion: OpBinaria(<=)
+    │       │   │   ├── izq: Identificador(n)
+    │       │   │   └── der: Numero(1)
+    │       │   └── [bloque_v]
+    │       │       └── Retornar
+    │       │           └── expr: Numero(1)
+    │       └── Retornar
+    │           └── expr: OpBinaria(*)
+    │               ├── izq: Identificador(n)
+    │               └── der: LlamadaFuncion(factorial)
+    │                   └── [argumentos]
+    │                       └── OpBinaria(-)
+    │                           ├── izq: Identificador(n)
+    │                           └── der: Numero(1)
+    ├── Declaracion(cadena nombre)
+    │   └── expr: Cadena('Ana')
+    ├── Declaracion(cadena saludo)
+    │   └── expr: OpBinaria(+)
+    │       ├── izq: Cadena('Hola ')
+    │       └── der: Identificador(nombre)
+    ├── Declaracion(decimal nota)
+    │   └── expr: Decimal(75.5)
+    ├── Declaracion(booleano aprobado)
+    │   └── expr: Booleano(False)
+    ├── Declaracion(entero intentos)
+    │   └── expr: Numero(0)
+    ├── Imprimir
+    │   └── expr: Identificador(saludo)
+    ├── Mientras
+    │   ├── condicion: Booleano(True)
+    │   └── [bloque]
+    │       ├── Asignacion(intentos)
+    │       │   └── expr: OpBinaria(+)
+    │       │       ├── izq: Identificador(intentos)
+    │       │       └── der: Numero(1)
+    │       ├── Si
+    │       │   ├── condicion: OpBinaria(==)
+    │       │   │   ├── izq: Identificador(intentos)
+    │       │   │   └── der: Numero(2)
+    │       │   └── [bloque_v]
+    │       │       └── Continuar
+    │       ├── Si
+    │       │   ├── condicion: OpBinaria(>)
+    │       │   │   ├── izq: Identificador(intentos)
+    │       │   │   └── der: Numero(4)
+    │       │   └── [bloque_v]
+    │       │       └── Parar
+    │       └── Imprimir
+    │           └── expr: Identificador(intentos)
+    ├── Si
+    │   ├── condicion: OpBinaria(>=)
+    │   │   ├── izq: Identificador(nota)
+    │   │   └── der: Decimal(90.0)
+    │   ├── [bloque_v]
+    │   │   └── Imprimir
+    │   │       └── expr: Cadena('Excelente')
+    │   └── [bloque_f]
+    │       └── Si
+    │           ├── condicion: OpBinaria(y)
+    │           │   ├── izq: OpBinaria(>=)
+    │           │   │   ├── izq: Identificador(nota)
+    │           │   │   └── der: Decimal(61.0)
+    │           │   └── der: OpUnaria(no)
+    │           │       └── expr: OpBinaria(>)
+    │           │           ├── izq: Identificador(intentos)
+    │           │           └── der: Numero(10)
+    │           ├── [bloque_v]
+    │           │   ├── Asignacion(aprobado)
+    │           │   │   └── expr: Booleano(True)
+    │           │   └── Imprimir
+    │           │       └── expr: Cadena('Aprobado')
+    │           └── [bloque_f]
+    │               └── Imprimir
+    │                   └── expr: Cadena('Reprobado')
+    ├── Imprimir
+    │   └── expr: Identificador(aprobado)
+    ├── Imprimir
+    │   └── expr: LlamadaFuncion(promedio)
+    │       └── [argumentos]
+    │           ├── Identificador(nota)
+    │           └── Decimal(100.0)
+    ├── Imprimir
+    │   └── expr: LlamadaFuncion(factorial)
+    │       └── [argumentos]
+    │           └── Numero(5)
+    ├── Imprimir
+    │   └── expr: OpBinaria(/)
+    │       ├── izq: Numero(7)
+    │       └── der: Numero(2)
+    └── Imprimir
+        └── expr: OpBinaria(/)
+            ├── izq: Decimal(7.0)
+            └── der: Numero(2)
+
+=== FASE 3 - ANALISIS SEMANTICO (semantic/analizador.py) ===
+Analisis semantico correcto.
+Tabla de simbolos: {'nombre': 'cadena', 'saludo': 'cadena', 'nota': 'decimal', 'aprobado': 'booleano', 'intentos': 'entero'}
+Tabla de funciones: {'promedio': ('decimal', ['decimal', 'decimal']), 'factorial': ('entero', ['entero'])}
+
+  +-----------+-----------+----------------------------+
+  | Nombre    | Categoria | Tipo                       |
+  +-----------+-----------+----------------------------+
+  | nombre    | variable  | cadena                     |
+  | saludo    | variable  | cadena                     |
+  | nota      | variable  | decimal                    |
+  | aprobado  | variable  | booleano                   |
+  | intentos  | variable  | entero                     |
+  | promedio  | funcion   | decimal (decimal, decimal) |
+  | factorial | funcion   | entero (entero)            |
+  +-----------+-----------+----------------------------+
+
+=== FASE 4 - CODIGO INTERMEDIO TAC (intermediate/tac.py) ===
+  # | op         | arg1         | arg2     | res
+----------------------------------------------------
+000 | JMP        | None         | None     | @L1
+001 | LABEL      | None         | None     | @F_promedio
+002 | GET_PARAM  | 0            | None     | a
+003 | GET_PARAM  | 1            | None     | b
+004 | +          | a            | b        | @t1
+005 | /          | @t1          | 2.0      | @t2
+006 | RETURN     | @t2          | None     | None
+007 | RETURN     | None         | None     | None
+008 | LABEL      | None         | None     | @L1
+009 | JMP        | None         | None     | @L2
+010 | LABEL      | None         | None     | @F_factorial
+011 | GET_PARAM  | 0            | None     | n
+012 | <=         | n            | 1        | @t3
+013 | JMP_FALSE  | @t3          | None     | @L3
+014 | RETURN     | 1            | None     | None
+015 | LABEL      | None         | None     | @L3
+016 | -          | n            | 1        | @t4
+017 | PARAM      | @t4          | None     | None
+018 | CALL       | factorial    | 1        | @t5
+019 | *          | n            | @t5      | @t6
+020 | RETURN     | @t6          | None     | None
+021 | RETURN     | None         | None     | None
+022 | LABEL      | None         | None     | @L2
+023 | ASSIGN     | "Ana"        | None     | nombre
+024 | +          | "Hola "      | nombre   | @t7
+025 | ASSIGN     | @t7          | None     | saludo
+026 | ASSIGN     | 75.5         | None     | nota
+027 | ASSIGN     | 0            | None     | aprobado
+028 | ASSIGN     | 0            | None     | intentos
+029 | PRINT      | saludo       | None     | None
+030 | LABEL      | None         | None     | @L4
+031 | JMP_FALSE  | 1            | None     | @L5
+032 | +          | intentos     | 1        | @t8
+033 | ASSIGN     | @t8          | None     | intentos
+034 | ==         | intentos     | 2        | @t9
+035 | JMP_FALSE  | @t9          | None     | @L6
+036 | JMP        | None         | None     | @L4
+037 | LABEL      | None         | None     | @L6
+038 | >          | intentos     | 4        | @t10
+039 | JMP_FALSE  | @t10         | None     | @L7
+040 | JMP        | None         | None     | @L5
+041 | LABEL      | None         | None     | @L7
+042 | PRINT      | intentos     | None     | None
+043 | JMP        | None         | None     | @L4
+044 | LABEL      | None         | None     | @L5
+045 | >=         | nota         | 90.0     | @t11
+046 | JMP_FALSE  | @t11         | None     | @L8
+047 | PRINT      | "Excelente"  | None     | None
+048 | JMP        | None         | None     | @L9
+049 | LABEL      | None         | None     | @L8
+050 | >=         | nota         | 61.0     | @t12
+051 | >          | intentos     | 10       | @t13
+052 | NO         | @t13         | None     | @t14
+053 | y          | @t12         | @t14     | @t15
+054 | JMP_FALSE  | @t15         | None     | @L10
+055 | ASSIGN     | 1            | None     | aprobado
+056 | PRINT      | "Aprobado"   | None     | None
+057 | JMP        | None         | None     | @L11
+058 | LABEL      | None         | None     | @L10
+059 | PRINT      | "Reprobado"  | None     | None
+060 | LABEL      | None         | None     | @L11
+061 | LABEL      | None         | None     | @L9
+062 | PRINT      | aprobado     | None     | None
+063 | PARAM      | nota         | None     | None
+064 | PARAM      | 100.0        | None     | None
+065 | CALL       | promedio     | 2        | @t16
+066 | PRINT      | @t16         | None     | None
+067 | PARAM      | 5            | None     | None
+068 | CALL       | factorial    | 1        | @t17
+069 | PRINT      | @t17         | None     | None
+070 | /          | 7            | 2        | @t18
+071 | PRINT      | @t18         | None     | None
+072 | /          | 7.0          | 2        | @t19
+073 | PRINT      | @t19         | None     | None
+
+=== FASE 5 - MAQUINA VIRTUAL (vm/maquina_virtual.py) ===
+>> SALIDA: Hola Ana
+>> SALIDA: 1
+>> SALIDA: 3
+>> SALIDA: 4
+>> SALIDA: Aprobado
+>> SALIDA: 1
+>> SALIDA: 87.75
+>> SALIDA: 120
+>> SALIDA: 3
+>> SALIDA: 3.5
+
+Memoria final: {'nombre': 'Ana', 'saludo': 'Hola Ana', 'nota': 75.5, 'aprobado': 1, 'intentos': 5}
+Salidas: ['Hola Ana', 1, 3, 4, 'Aprobado', 1, 87.75, 120, 3, 3.5]
+
+Compilacion y ejecucion completadas.

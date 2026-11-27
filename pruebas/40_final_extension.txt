@@ -1,0 +1,49 @@
+/* Demostracion final de mi extension personal:
+   llega hasta la ejecucion en la maquina virtual. */
+
+funcion decimal promedio(decimal a, decimal b) {
+    retornar (a + b) / 2.0;
+}
+
+funcion entero factorial(entero n) {
+    si (n <= 1) {
+        retornar 1;
+    }
+    retornar n * factorial(n - 1);
+}
+
+cadena nombre = "Ana";
+cadena saludo = "Hola " + nombre;
+decimal nota = 75.5;
+booleano aprobado = falso;
+entero intentos = 0;
+
+imprimir(saludo);
+
+// mientras con continuar y parar
+mientras (verdadero) {
+    intentos = intentos + 1;
+    si (intentos == 2) {
+        continuar;
+    }
+    si (intentos > 4) {
+        parar;
+    }
+    imprimir(intentos);
+}
+
+// si / sino si / sino con operadores logicos
+si (nota >= 90.0) entonces {
+    imprimir("Excelente");
+} sino si (nota >= 61.0 y no (intentos > 10)) {
+    aprobado = verdadero;
+    imprimir("Aprobado");
+} sino {
+    imprimir("Reprobado");
+}
+
+imprimir(aprobado);
+imprimir(promedio(nota, 100.0));
+imprimir(factorial(5));
+imprimir(7 / 2);
+imprimir(7.0 / 2);

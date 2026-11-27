@@ -1,0 +1,96 @@
+$ python main.py pruebas/17_si_verdadero_falso.txt
+
+=== MI COMPILADOR - ENTREGA FINAL (5 FASES) ===
+
+CODIGO FUENTE:
+entero edad = 20;
+si (edad >= 18) { imprimir(1); }
+si (edad < 18) { imprimir(0); }
+
+
+=== FASE 1 - ANALISIS LEXICO (lexer/lexer.py) ===
+  Token(tipo='PR_ENTERO', valor='entero', linea=1)
+  Token(tipo='ID', valor='edad', linea=1)
+  Token(tipo='ASIGNACION', valor='=', linea=1)
+  Token(tipo='NUMERO', valor='20', linea=1)
+  Token(tipo='DELIM', valor=';', linea=1)
+  Token(tipo='PR_SI', valor='si', linea=2)
+  Token(tipo='DELIM', valor='(', linea=2)
+  Token(tipo='ID', valor='edad', linea=2)
+  Token(tipo='OP_REL', valor='>=', linea=2)
+  Token(tipo='NUMERO', valor='18', linea=2)
+  Token(tipo='DELIM', valor=')', linea=2)
+  Token(tipo='DELIM', valor='{', linea=2)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=2)
+  Token(tipo='DELIM', valor='(', linea=2)
+  Token(tipo='NUMERO', valor='1', linea=2)
+  Token(tipo='DELIM', valor=')', linea=2)
+  Token(tipo='DELIM', valor=';', linea=2)
+  Token(tipo='DELIM', valor='}', linea=2)
+  Token(tipo='PR_SI', valor='si', linea=3)
+  Token(tipo='DELIM', valor='(', linea=3)
+  Token(tipo='ID', valor='edad', linea=3)
+  Token(tipo='OP_REL', valor='<', linea=3)
+  Token(tipo='NUMERO', valor='18', linea=3)
+  Token(tipo='DELIM', valor=')', linea=3)
+  Token(tipo='DELIM', valor='{', linea=3)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=3)
+  Token(tipo='DELIM', valor='(', linea=3)
+  Token(tipo='NUMERO', valor='0', linea=3)
+  Token(tipo='DELIM', valor=')', linea=3)
+  Token(tipo='DELIM', valor=';', linea=3)
+  Token(tipo='DELIM', valor='}', linea=3)
+  Token(tipo='EOF', valor='', linea=4)
+
+=== FASE 2 - ANALISIS SINTACTICO (parser/parser.py) ===
+Analisis sintactico correcto. AST generado:
+
+Programa
+└── [sentencias]
+    ├── Declaracion(entero edad)
+    │   └── expr: Numero(20)
+    ├── Si
+    │   ├── condicion: OpBinaria(>=)
+    │   │   ├── izq: Identificador(edad)
+    │   │   └── der: Numero(18)
+    │   └── [bloque_v]
+    │       └── Imprimir
+    │           └── expr: Numero(1)
+    └── Si
+        ├── condicion: OpBinaria(<)
+        │   ├── izq: Identificador(edad)
+        │   └── der: Numero(18)
+        └── [bloque_v]
+            └── Imprimir
+                └── expr: Numero(0)
+
+=== FASE 3 - ANALISIS SEMANTICO (semantic/analizador.py) ===
+Analisis semantico correcto.
+Tabla de simbolos: {'edad': 'entero'}
+
+  +--------+-----------+--------+
+  | Nombre | Categoria | Tipo   |
+  +--------+-----------+--------+
+  | edad   | variable  | entero |
+  +--------+-----------+--------+
+
+=== FASE 4 - CODIGO INTERMEDIO TAC (intermediate/tac.py) ===
+  # | op         | arg1         | arg2     | res
+----------------------------------------------------
+000 | ASSIGN     | 20           | None     | edad
+001 | >=         | edad         | 18       | @t1
+002 | JMP_FALSE  | @t1          | None     | @L1
+003 | PRINT      | 1            | None     | None
+004 | LABEL      | None         | None     | @L1
+005 | <          | edad         | 18       | @t2
+006 | JMP_FALSE  | @t2          | None     | @L2
+007 | PRINT      | 0            | None     | None
+008 | LABEL      | None         | None     | @L2
+
+=== FASE 5 - MAQUINA VIRTUAL (vm/maquina_virtual.py) ===
+>> SALIDA: 1
+
+Memoria final: {'edad': 20}
+Salidas: [1]
+
+Compilacion y ejecucion completadas.

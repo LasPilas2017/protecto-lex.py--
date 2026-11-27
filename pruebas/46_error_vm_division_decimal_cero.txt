@@ -1,0 +1,4 @@
+// Error de ejecucion con decimales: division entre cero.
+decimal total = 50.0;
+decimal partes = 0.0;
+imprimir(total / partes);

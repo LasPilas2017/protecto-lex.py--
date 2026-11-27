@@ -1,0 +1,5 @@
+// Error de ejecucion: 'leer' espera un entero.
+// Escribe un texto (por ejemplo: veinte) cuando lo pida.
+entero edad = 0;
+leer edad;
+imprimir(edad);

@@ -1,0 +1,5 @@
+// Igual que la prueba 19 del docente, pero con 'z' en lugar de 'y'
+// ('y' es palabra reservada en mi lenguaje).
+entero x = 10;
+entero z = 0;
+imprimir(x / z);

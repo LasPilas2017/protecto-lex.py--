@@ -1,0 +1,100 @@
+$ python main.py pruebas/18_ciclo_while.txt
+
+=== MI COMPILADOR - ENTREGA FINAL (5 FASES) ===
+
+CODIGO FUENTE:
+entero x = 0;
+mientras (x < 3) {
+    imprimir(x);
+    x = x + 1;
+}
+imprimir(x);
+
+
+=== FASE 1 - ANALISIS LEXICO (lexer/lexer.py) ===
+  Token(tipo='PR_ENTERO', valor='entero', linea=1)
+  Token(tipo='ID', valor='x', linea=1)
+  Token(tipo='ASIGNACION', valor='=', linea=1)
+  Token(tipo='NUMERO', valor='0', linea=1)
+  Token(tipo='DELIM', valor=';', linea=1)
+  Token(tipo='PR_MIENTRAS', valor='mientras', linea=2)
+  Token(tipo='DELIM', valor='(', linea=2)
+  Token(tipo='ID', valor='x', linea=2)
+  Token(tipo='OP_REL', valor='<', linea=2)
+  Token(tipo='NUMERO', valor='3', linea=2)
+  Token(tipo='DELIM', valor=')', linea=2)
+  Token(tipo='DELIM', valor='{', linea=2)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=3)
+  Token(tipo='DELIM', valor='(', linea=3)
+  Token(tipo='ID', valor='x', linea=3)
+  Token(tipo='DELIM', valor=')', linea=3)
+  Token(tipo='DELIM', valor=';', linea=3)
+  Token(tipo='ID', valor='x', linea=4)
+  Token(tipo='ASIGNACION', valor='=', linea=4)
+  Token(tipo='ID', valor='x', linea=4)
+  Token(tipo='OP_ARIT', valor='+', linea=4)
+  Token(tipo='NUMERO', valor='1', linea=4)
+  Token(tipo='DELIM', valor=';', linea=4)
+  Token(tipo='DELIM', valor='}', linea=5)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=6)
+  Token(tipo='DELIM', valor='(', linea=6)
+  Token(tipo='ID', valor='x', linea=6)
+  Token(tipo='DELIM', valor=')', linea=6)
+  Token(tipo='DELIM', valor=';', linea=6)
+  Token(tipo='EOF', valor='', linea=7)
+
+=== FASE 2 - ANALISIS SINTACTICO (parser/parser.py) ===
+Analisis sintactico correcto. AST generado:
+
+Programa
+└── [sentencias]
+    ├── Declaracion(entero x)
+    │   └── expr: Numero(0)
+    ├── Mientras
+    │   ├── condicion: OpBinaria(<)
+    │   │   ├── izq: Identificador(x)
+    │   │   └── der: Numero(3)
+    │   └── [bloque]
+    │       ├── Imprimir
+    │       │   └── expr: Identificador(x)
+    │       └── Asignacion(x)
+    │           └── expr: OpBinaria(+)
+    │               ├── izq: Identificador(x)
+    │               └── der: Numero(1)
+    └── Imprimir
+        └── expr: Identificador(x)
+
+=== FASE 3 - ANALISIS SEMANTICO (semantic/analizador.py) ===
+Analisis semantico correcto.
+Tabla de simbolos: {'x': 'entero'}
+
+  +--------+-----------+--------+
+  | Nombre | Categoria | Tipo   |
+  +--------+-----------+--------+
+  | x      | variable  | entero |
+  +--------+-----------+--------+
+
+=== FASE 4 - CODIGO INTERMEDIO TAC (intermediate/tac.py) ===
+  # | op         | arg1         | arg2     | res
+----------------------------------------------------
+000 | ASSIGN     | 0            | None     | x
+001 | LABEL      | None         | None     | @L1
+002 | <          | x            | 3        | @t1
+003 | JMP_FALSE  | @t1          | None     | @L2
+004 | PRINT      | x            | None     | None
+005 | +          | x            | 1        | @t2
+006 | ASSIGN     | @t2          | None     | x
+007 | JMP        | None         | None     | @L1
+008 | LABEL      | None         | None     | @L2
+009 | PRINT      | x            | None     | None
+
+=== FASE 5 - MAQUINA VIRTUAL (vm/maquina_virtual.py) ===
+>> SALIDA: 0
+>> SALIDA: 1
+>> SALIDA: 2
+>> SALIDA: 3
+
+Memoria final: {'x': 3}
+Salidas: [0, 1, 2, 3]
+
+Compilacion y ejecucion completadas.

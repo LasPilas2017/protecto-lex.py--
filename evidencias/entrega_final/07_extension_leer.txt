@@ -1,0 +1,107 @@
+$ python main.py pruebas/42_final_leer.txt
+
+=== MI COMPILADOR - ENTREGA FINAL (5 FASES) ===
+
+CODIGO FUENTE:
+// leer: la maquina virtual pide el dato por teclado.
+decimal nota = 0;
+leer nota;
+si (nota >= 61.0) {
+    imprimir("Aprobado");
+} sino {
+    imprimir("Reprobado");
+}
+imprimir(nota);
+
+
+=== FASE 1 - ANALISIS LEXICO (lexer/lexer.py) ===
+  Token(tipo='PR_DECIMAL', valor='decimal', linea=2)
+  Token(tipo='ID', valor='nota', linea=2)
+  Token(tipo='ASIGNACION', valor='=', linea=2)
+  Token(tipo='NUMERO', valor='0', linea=2)
+  Token(tipo='DELIM', valor=';', linea=2)
+  Token(tipo='PR_LEER', valor='leer', linea=3)
+  Token(tipo='ID', valor='nota', linea=3)
+  Token(tipo='DELIM', valor=';', linea=3)
+  Token(tipo='PR_SI', valor='si', linea=4)
+  Token(tipo='DELIM', valor='(', linea=4)
+  Token(tipo='ID', valor='nota', linea=4)
+  Token(tipo='OP_REL', valor='>=', linea=4)
+  Token(tipo='NUMERO_DECIMAL', valor='61.0', linea=4)
+  Token(tipo='DELIM', valor=')', linea=4)
+  Token(tipo='DELIM', valor='{', linea=4)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=5)
+  Token(tipo='DELIM', valor='(', linea=5)
+  Token(tipo='CADENA_LITERAL', valor='"Aprobado"', linea=5)
+  Token(tipo='DELIM', valor=')', linea=5)
+  Token(tipo='DELIM', valor=';', linea=5)
+  Token(tipo='DELIM', valor='}', linea=6)
+  Token(tipo='PR_SINO', valor='sino', linea=6)
+  Token(tipo='DELIM', valor='{', linea=6)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=7)
+  Token(tipo='DELIM', valor='(', linea=7)
+  Token(tipo='CADENA_LITERAL', valor='"Reprobado"', linea=7)
+  Token(tipo='DELIM', valor=')', linea=7)
+  Token(tipo='DELIM', valor=';', linea=7)
+  Token(tipo='DELIM', valor='}', linea=8)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=9)
+  Token(tipo='DELIM', valor='(', linea=9)
+  Token(tipo='ID', valor='nota', linea=9)
+  Token(tipo='DELIM', valor=')', linea=9)
+  Token(tipo='DELIM', valor=';', linea=9)
+  Token(tipo='EOF', valor='', linea=10)
+
+=== FASE 2 - ANALISIS SINTACTICO (parser/parser.py) ===
+Analisis sintactico correcto. AST generado:
+
+Programa
+└── [sentencias]
+    ├── Declaracion(decimal nota)
+    │   └── expr: Numero(0)
+    ├── Leer(nota)
+    ├── Si
+    │   ├── condicion: OpBinaria(>=)
+    │   │   ├── izq: Identificador(nota)
+    │   │   └── der: Decimal(61.0)
+    │   ├── [bloque_v]
+    │   │   └── Imprimir
+    │   │       └── expr: Cadena('Aprobado')
+    │   └── [bloque_f]
+    │       └── Imprimir
+    │           └── expr: Cadena('Reprobado')
+    └── Imprimir
+        └── expr: Identificador(nota)
+
+=== FASE 3 - ANALISIS SEMANTICO (semantic/analizador.py) ===
+Analisis semantico correcto.
+Tabla de simbolos: {'nota': 'decimal'}
+
+  +--------+-----------+---------+
+  | Nombre | Categoria | Tipo    |
+  +--------+-----------+---------+
+  | nota   | variable  | decimal |
+  +--------+-----------+---------+
+
+=== FASE 4 - CODIGO INTERMEDIO TAC (intermediate/tac.py) ===
+  # | op         | arg1         | arg2     | res
+----------------------------------------------------
+000 | ASSIGN     | 0            | None     | nota
+001 | READ       | decimal      | None     | nota
+002 | >=         | nota         | 61.0     | @t1
+003 | JMP_FALSE  | @t1          | None     | @L1
+004 | PRINT      | "Aprobado"   | None     | None
+005 | JMP        | None         | None     | @L2
+006 | LABEL      | None         | None     | @L1
+007 | PRINT      | "Reprobado"  | None     | None
+008 | LABEL      | None         | None     | @L2
+009 | PRINT      | nota         | None     | None
+
+=== FASE 5 - MAQUINA VIRTUAL (vm/maquina_virtual.py) ===
+<< ENTRADA (nota, decimal): 70
+>> SALIDA: Aprobado
+>> SALIDA: 70.0
+
+Memoria final: {'nota': 70.0}
+Salidas: ['Aprobado', 70.0]
+
+Compilacion y ejecucion completadas.

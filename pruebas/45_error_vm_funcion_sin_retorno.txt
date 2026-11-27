@@ -1,0 +1,7 @@
+// Error de ejecucion: la funcion no retorna en todos los caminos.
+funcion entero signo(entero n) {
+    si (n > 0) {
+        retornar 1;
+    }
+}
+imprimir(signo(-5));

@@ -1,0 +1,60 @@
+$ python main.py pruebas/43_error_vm_leer_tipo.txt
+
+=== MI COMPILADOR - ENTREGA FINAL (5 FASES) ===
+
+CODIGO FUENTE:
+// Error de ejecucion: 'leer' espera un entero.
+// Escribe un texto (por ejemplo: veinte) cuando lo pida.
+entero edad = 0;
+leer edad;
+imprimir(edad);
+
+
+=== FASE 1 - ANALISIS LEXICO (lexer/lexer.py) ===
+  Token(tipo='PR_ENTERO', valor='entero', linea=3)
+  Token(tipo='ID', valor='edad', linea=3)
+  Token(tipo='ASIGNACION', valor='=', linea=3)
+  Token(tipo='NUMERO', valor='0', linea=3)
+  Token(tipo='DELIM', valor=';', linea=3)
+  Token(tipo='PR_LEER', valor='leer', linea=4)
+  Token(tipo='ID', valor='edad', linea=4)
+  Token(tipo='DELIM', valor=';', linea=4)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=5)
+  Token(tipo='DELIM', valor='(', linea=5)
+  Token(tipo='ID', valor='edad', linea=5)
+  Token(tipo='DELIM', valor=')', linea=5)
+  Token(tipo='DELIM', valor=';', linea=5)
+  Token(tipo='EOF', valor='', linea=6)
+
+=== FASE 2 - ANALISIS SINTACTICO (parser/parser.py) ===
+Analisis sintactico correcto. AST generado:
+
+Programa
+└── [sentencias]
+    ├── Declaracion(entero edad)
+    │   └── expr: Numero(0)
+    ├── Leer(edad)
+    └── Imprimir
+        └── expr: Identificador(edad)
+
+=== FASE 3 - ANALISIS SEMANTICO (semantic/analizador.py) ===
+Analisis semantico correcto.
+Tabla de simbolos: {'edad': 'entero'}
+
+  +--------+-----------+--------+
+  | Nombre | Categoria | Tipo   |
+  +--------+-----------+--------+
+  | edad   | variable  | entero |
+  +--------+-----------+--------+
+
+=== FASE 4 - CODIGO INTERMEDIO TAC (intermediate/tac.py) ===
+  # | op         | arg1         | arg2     | res
+----------------------------------------------------
+000 | ASSIGN     | 0            | None     | edad
+001 | READ       | entero       | None     | edad
+002 | PRINT      | edad         | None     | None
+
+=== FASE 5 - MAQUINA VIRTUAL (vm/maquina_virtual.py) ===
+<< ENTRADA (edad, entero): veinte
+
+[Error VM] 'leer edad' esperaba un valor entero y recibio 'veinte'.

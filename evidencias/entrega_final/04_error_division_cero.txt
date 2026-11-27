@@ -1,0 +1,68 @@
+$ python main.py pruebas/41_division_cero_z.txt
+
+=== MI COMPILADOR - ENTREGA FINAL (5 FASES) ===
+
+CODIGO FUENTE:
+// Igual que la prueba 19 del docente, pero con 'z' en lugar de 'y'
+// ('y' es palabra reservada en mi lenguaje).
+entero x = 10;
+entero z = 0;
+imprimir(x / z);
+
+
+=== FASE 1 - ANALISIS LEXICO (lexer/lexer.py) ===
+  Token(tipo='PR_ENTERO', valor='entero', linea=3)
+  Token(tipo='ID', valor='x', linea=3)
+  Token(tipo='ASIGNACION', valor='=', linea=3)
+  Token(tipo='NUMERO', valor='10', linea=3)
+  Token(tipo='DELIM', valor=';', linea=3)
+  Token(tipo='PR_ENTERO', valor='entero', linea=4)
+  Token(tipo='ID', valor='z', linea=4)
+  Token(tipo='ASIGNACION', valor='=', linea=4)
+  Token(tipo='NUMERO', valor='0', linea=4)
+  Token(tipo='DELIM', valor=';', linea=4)
+  Token(tipo='PR_IMPRIMIR', valor='imprimir', linea=5)
+  Token(tipo='DELIM', valor='(', linea=5)
+  Token(tipo='ID', valor='x', linea=5)
+  Token(tipo='OP_ARIT', valor='/', linea=5)
+  Token(tipo='ID', valor='z', linea=5)
+  Token(tipo='DELIM', valor=')', linea=5)
+  Token(tipo='DELIM', valor=';', linea=5)
+  Token(tipo='EOF', valor='', linea=6)
+
+=== FASE 2 - ANALISIS SINTACTICO (parser/parser.py) ===
+Analisis sintactico correcto. AST generado:
+
+Programa
+└── [sentencias]
+    ├── Declaracion(entero x)
+    │   └── expr: Numero(10)
+    ├── Declaracion(entero z)
+    │   └── expr: Numero(0)
+    └── Imprimir
+        └── expr: OpBinaria(/)
+            ├── izq: Identificador(x)
+            └── der: Identificador(z)
+
+=== FASE 3 - ANALISIS SEMANTICO (semantic/analizador.py) ===
+Analisis semantico correcto.
+Tabla de simbolos: {'x': 'entero', 'z': 'entero'}
+
+  +--------+-----------+--------+
+  | Nombre | Categoria | Tipo   |
+  +--------+-----------+--------+
+  | x      | variable  | entero |
+  | z      | variable  | entero |
+  +--------+-----------+--------+
+
+=== FASE 4 - CODIGO INTERMEDIO TAC (intermediate/tac.py) ===
+  # | op         | arg1         | arg2     | res
+----------------------------------------------------
+000 | ASSIGN     | 10           | None     | x
+001 | ASSIGN     | 0            | None     | z
+002 | /          | x            | z        | @t1
+003 | PRINT      | @t1          | None     | None
+
+=== FASE 5 - MAQUINA VIRTUAL (vm/maquina_virtual.py) ===
+
+[Error VM] Division entre cero.

@@ -1,0 +1,5 @@
+// Error de ejecucion: recursion sin caso base.
+funcion entero cuenta(entero n) {
+    retornar cuenta(n + 1);
+}
+imprimir(cuenta(1));
